@@ -68,8 +68,6 @@ public class TicketServiceImpl implements TicketService {
                 .seats(bookedSeats).
                 build();
 
-
-
         //Step 3 :
 
         double amount = 0;
@@ -103,13 +101,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     private String convertListOfSeatsEntityToString(List<ShowSeatsEntity> bookedSeats) {
-        StringBuilder bookedSeatsString = new StringBuilder();
-
+        String str = "";
         for(ShowSeatsEntity showSeatsEntity : bookedSeats){
-            bookedSeatsString.append(showSeatsEntity.getSeatNumber()).append(" ");
+
+            str = str + showSeatsEntity.getSeatNumber()+" ";
         }
 
-        return bookedSeatsString.toString();
+        return str;
     }
 
     @Override

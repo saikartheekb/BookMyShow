@@ -5,8 +5,6 @@ import com.capstoneproject.BookMyShow.Dto.ResponseDto.TicketResponseDto;
 import com.capstoneproject.BookMyShow.Service.Impl.TicketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,14 +16,13 @@ public class TicketController {
     TicketServiceImpl ticketService;
 
     @PostMapping("add")
-    public ResponseEntity<TicketResponseDto> addTicket(@RequestBody() BookTicketRequestDto bookTicketRequestDto){
-        TicketResponseDto ticketResponse = ticketService.bookTicket(bookTicketRequestDto);
-        return new ResponseEntity<>(ticketResponse, HttpStatus.CREATED);
+    public TicketResponseDto addTicket(@RequestBody() BookTicketRequestDto bookTicketRequestDto){
+        log.info("In ticket controller");
+        return ticketService.bookTicket(bookTicketRequestDto);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<TicketResponseDto> getTicket(int id){
-        TicketResponseDto ticketResponse = ticketService.getTicket(id);
-        return new ResponseEntity<>(ticketResponse, HttpStatus.FOUND);
+    @GetMapping("get/{id}")
+    public TicketResponseDto getTicket(@PathVariable int id){
+        return ticketService.getTicket(id);
     }
 }

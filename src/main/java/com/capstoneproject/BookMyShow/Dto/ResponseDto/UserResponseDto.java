@@ -1,6 +1,9 @@
 package com.capstoneproject.BookMyShow.Dto.ResponseDto;
 
+import com.capstoneproject.BookMyShow.Dto.TicketDto;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,12 +12,13 @@ import lombok.*;
 @Builder
 public class UserResponseDto {
 
-    private int id;
+    int id;
 
-    @NonNull
-    private String name;
+    String name;
 
-    @NonNull
-    private String mobile;
+    String mobile;
+
+    //Optional
+    List<TicketDto> tickets;
 
 }

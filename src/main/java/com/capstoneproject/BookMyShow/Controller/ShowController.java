@@ -1,6 +1,7 @@
 package com.capstoneproject.BookMyShow.Controller;
 
 import com.capstoneproject.BookMyShow.Dto.EntryDto.ShowEntryDto;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.ShowResponseDto;
 import com.capstoneproject.BookMyShow.Service.Impl.ShowServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,8 @@ public class ShowController {
     ShowServiceImpl showService;
 
     @PostMapping("add")
-    ResponseEntity<ShowEntryDto> addShow(@RequestBody() ShowEntryDto show){
-        showService.addShow(show);
-        return new ResponseEntity<>(show, HttpStatus.CREATED);
-    }
-
-    @GetMapping("{id}")
-    ResponseEntity<ShowEntryDto> getShow(int id){
-        ShowEntryDto showEntryDto = showService.getShow(id);
-        return new ResponseEntity<>(showEntryDto, HttpStatus.FOUND);
+    public ShowResponseDto addShow(@RequestBody() ShowEntryDto show){
+        log.info("In Show Controller class");
+        return showService.addShow(show);
     }
 }

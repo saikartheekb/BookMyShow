@@ -34,7 +34,7 @@ public class ShowEntity {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(name = "created_on")
     private Date createdOn;
 
     @UpdateTimestamp

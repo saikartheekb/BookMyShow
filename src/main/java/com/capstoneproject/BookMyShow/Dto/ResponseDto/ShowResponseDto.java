@@ -1,7 +1,7 @@
 package com.capstoneproject.BookMyShow.Dto.ResponseDto;
 
 import com.capstoneproject.BookMyShow.Dto.EntryDto.TheaterEntryDto;
-import com.capstoneproject.BookMyShow.Dto.MovieDto;
+import com.capstoneproject.BookMyShow.Dto.EntryDto.MovieEntryDto;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,9 +13,9 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class ShowResponseDto {
-    private int id;
-    private LocalDate showDate;
-    private LocalTime showTime;
-    private MovieDto movieDto;
-    private TheaterEntryDto theater;
+    int id;
+    LocalDate showDate;
+    LocalTime showTime;
+    MovieResponseDto movieResponseDto;
+    TheaterResponseDto theaterResponseDto;
 }

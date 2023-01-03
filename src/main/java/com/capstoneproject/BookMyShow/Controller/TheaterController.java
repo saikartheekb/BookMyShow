@@ -18,15 +18,9 @@ public class TheaterController {
     TheaterServiceImpl theaterService;
 
     @PostMapping("add")
-    ResponseEntity<TheaterEntryDto> addTheater(@RequestBody() TheaterEntryDto theaterEntryDto) {
-        theaterService.addTheater(theaterEntryDto);
-        return new ResponseEntity<>(theaterEntryDto, HttpStatus.CREATED);
-    }
+    public TheaterResponseDto addTheater(@RequestBody() TheaterEntryDto theaterEntryDto) {
 
-    @GetMapping("{id}")
-    ResponseEntity<TheaterResponseDto> getTheater(int id) {
-        TheaterResponseDto theater = theaterService.getTheater(id);
-        return new ResponseEntity<>(theater, HttpStatus.FOUND);
+        return theaterService.addTheater(theaterEntryDto);
     }
 
 }

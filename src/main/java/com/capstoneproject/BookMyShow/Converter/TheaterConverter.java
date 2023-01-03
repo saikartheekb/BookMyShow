@@ -14,16 +14,17 @@ public class TheaterConverter {
                 .name(theaterEntryDto.getName())
                 .city(theaterEntryDto.getCity())
                 .address(theaterEntryDto.getAddress())
-                .type(theaterEntryDto.getType())
                 .build();
     }
 
     public static TheaterResponseDto entityToDto(TheaterEntity theaterEntity){
         return TheaterResponseDto
                 .builder()
+                .id(theaterEntity.getId())
                 .name(theaterEntity.getName())
                 .city(theaterEntity.getCity())
                 .address(theaterEntity.getAddress())
+                .type(theaterEntity.getType())
                 .build();
     }
 }

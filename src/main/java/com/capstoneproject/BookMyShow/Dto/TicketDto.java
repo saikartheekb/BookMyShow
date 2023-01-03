@@ -1,7 +1,9 @@
 package com.capstoneproject.BookMyShow.Dto;
 
 import com.capstoneproject.BookMyShow.Dto.EntryDto.ShowEntryDto;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.ShowResponseDto;
 import com.capstoneproject.BookMyShow.Dto.ResponseDto.UserResponseDto;
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -14,8 +16,10 @@ import java.util.Set;
 public class TicketDto {
 
     int id; // ticket id
-    Set<String> allottedSeats;
+    String allottedSeats;
     double amount;
-    ShowEntryDto showEntryDto;
+    ShowResponseDto showResponseDto;
+
+    @NotNull
     UserResponseDto userDto;
 }

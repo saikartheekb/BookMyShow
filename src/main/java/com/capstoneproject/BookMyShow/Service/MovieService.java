@@ -1,12 +1,18 @@
 package com.capstoneproject.BookMyShow.Service;
 
-import com.capstoneproject.BookMyShow.Dto.MovieDto;
+import com.capstoneproject.BookMyShow.Dto.EntryDto.MovieEntryDto;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.MovieNameAndIdObject;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.MovieResponseDto;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface MovieService {
 
-    MovieDto addMovie(MovieDto movieDto);
+    MovieResponseDto addMovie(MovieEntryDto movieEntryDto);
 
-    MovieDto getMovie(int id);
+    MovieResponseDto getMovie(int id);
+
+    MovieNameAndIdObject getNameAndId(int id);
+
+
 }

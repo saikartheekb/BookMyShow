@@ -6,10 +6,7 @@ import lombok.*;
 @Builder
 public class UserEntryDto {
 
-    @NonNull
     String name;
-
-    @NonNull
     String mobile;
 
 }

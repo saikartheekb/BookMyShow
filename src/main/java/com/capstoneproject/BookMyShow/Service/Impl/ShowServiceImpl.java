@@ -1,16 +1,23 @@
 package com.capstoneproject.BookMyShow.Service.Impl;
 
+
 import com.capstoneproject.BookMyShow.Converter.ShowConverter;
 import com.capstoneproject.BookMyShow.Dto.EntryDto.ShowEntryDto;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.ShowResponseDto;
 import com.capstoneproject.BookMyShow.Model.*;
-import com.capstoneproject.BookMyShow.Repository.*;
+import com.capstoneproject.BookMyShow.Repository.MovieRepository;
+import com.capstoneproject.BookMyShow.Repository.ShowRepository;
+import com.capstoneproject.BookMyShow.Repository.ShowSeatsRepository;
+import com.capstoneproject.BookMyShow.Repository.TheaterRepository;
 import com.capstoneproject.BookMyShow.Service.ShowService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j //Helps
 @Service
 public class ShowServiceImpl implements ShowService {
 
@@ -27,43 +34,60 @@ public class ShowServiceImpl implements ShowService {
     ShowRepository showRepository;
 
     @Override
-    public ShowEntryDto addShow(ShowEntryDto showEntryDto) {
+    public ShowResponseDto addShow(ShowEntryDto showEntryDto) {
+
         ShowEntity showEntity = ShowConverter.dtoToEntity(showEntryDto);
 
-        MovieEntity movie = movieRepository.findById(showEntryDto.getMovieDto().getId()).get();
-        showEntity.setMovie(movie);
+        //MovieEntity
+        MovieEntity movieEntity = movieRepository.findById(showEntryDto.getMovieResponseDto().getId()).get();
 
-        TheaterEntity theater = theaterRepository.findById(showEntryDto.getTheaterEntryDto().getId()).get();
-        showEntity.setTheater(theater);
-        
-        List<ShowSeatsEntity> seats = createShowSeatsEntity(theater.getSeats(), showEntity);
-        showEntity.setSeats(seats);
+        TheaterEntity theaterEntity = theaterRepository.findById(showEntryDto.getTheaterResponseDto().getId()).get();
 
-        showRepository.save(showEntity);
 
-        return showEntryDto;
+        showEntity.setMovie(movieEntity); //Why are we setting these varibble
+        showEntity.setTheater(theaterEntity);
+
+        showEntity = showRepository.save(showEntity);
+
+
+        //We need to pass the list of the theater seats
+        List<ShowSeatsEntity> showSeatsEntityList = generateShowEntitySeats(theaterEntity.getSeats(),showEntity);
+        showSeatsRepository.saveAll(showSeatsEntityList);
+        //We need to create Response Show Dto.
+
+        return ShowConverter.entityToDto(showEntity,showEntryDto);
     }
 
-    private List<ShowSeatsEntity> createShowSeatsEntity(List<TheaterSeatsEntity> theaterSeats, ShowEntity showEntity) {
+    public List<ShowSeatsEntity> generateShowEntitySeats(List<TheaterSeatsEntity> theaterSeatsEntityList, ShowEntity showEntity){
 
-        List<ShowSeatsEntity> showSeats = new ArrayList<>();
-        for(TheaterSeatsEntity seat: theaterSeats){
-            ShowSeatsEntity showSeat = ShowSeatsEntity
-                                                .builder()
-                                                .id(seat.getId())
-                                                .seatType(seat.getSeatType())
-                                                .seatNumber(seat.getSeatNumber())
-                                                .show(showEntity)
-                                                .build();
-            showSeats.add(showSeat);
+        List<ShowSeatsEntity> showSeatsEntityList = new ArrayList<>();
+
+        //log.info(String.valueOf(theaterSeatsEntityList));
+//        log.info("The list of theaterEntity Seats");
+//        for(TheaterSeatsEntity tse: theaterSeatsEntityList){
+//            log.info(tse.toString());
+//        }
+
+
+        for(TheaterSeatsEntity tse : theaterSeatsEntityList){
+
+            ShowSeatsEntity showSeatsEntity = ShowSeatsEntity.builder().seatNumber(tse.getSeatNumber())
+                    .seatType(tse.getSeatType())
+                    .price(tse.getPrice())
+                    .build();
+
+            showSeatsEntityList.add(showSeatsEntity);
         }
-        showSeatsRepository.saveAll(showSeats);
-        return showSeats;
+
+
+        //We need to set the show Entity for each of the ShowSeat....
+        for(ShowSeatsEntity showSeatsEntity:showSeatsEntityList){
+            showSeatsEntity.setShow(showEntity);
+        }
+
+        showEntity.setSeats(showSeatsEntityList);
+        return showSeatsEntityList;
+
     }
 
-    @Override
-    public ShowEntryDto getShow(int id) {
-        ShowEntity show = showRepository.findById(id).get();
-        return ShowConverter.entityToDto(show);
-    }
 }

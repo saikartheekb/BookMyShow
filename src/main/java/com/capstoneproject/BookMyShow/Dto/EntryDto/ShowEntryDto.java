@@ -1,6 +1,8 @@
 package com.capstoneproject.BookMyShow.Dto.EntryDto;
 
-import com.capstoneproject.BookMyShow.Dto.MovieDto;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.MovieResponseDto;
+import com.capstoneproject.BookMyShow.Dto.ResponseDto.TheaterResponseDto;
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,10 +14,13 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class ShowEntryDto {
-    private int id;
-    private LocalDate showDate;
-    private LocalTime showTime;
-    private MovieDto movieDto;
-    private TheaterEntryDto theaterEntryDto;
+    @NotNull
+    LocalDate showDate;
+    @NotNull
+    LocalTime showTime;
+    @NotNull
+    MovieResponseDto movieResponseDto;
+    @NotNull
+    TheaterResponseDto theaterResponseDto;
 }
 

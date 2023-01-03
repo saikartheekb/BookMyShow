@@ -4,11 +4,13 @@ import com.capstoneproject.BookMyShow.Converter.TheaterConverter;
 import com.capstoneproject.BookMyShow.Dto.EntryDto.TheaterEntryDto;
 import com.capstoneproject.BookMyShow.Dto.ResponseDto.TheaterResponseDto;
 import com.capstoneproject.BookMyShow.Enums.SeatType;
+import com.capstoneproject.BookMyShow.Enums.TheaterType;
 import com.capstoneproject.BookMyShow.Model.TheaterEntity;
 import com.capstoneproject.BookMyShow.Model.TheaterSeatsEntity;
 import com.capstoneproject.BookMyShow.Repository.TheaterRepository;
 import com.capstoneproject.BookMyShow.Repository.TheaterSeatsRepository;
 import com.capstoneproject.BookMyShow.Service.TheaterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TheaterServiceImpl implements TheaterService {
     @Autowired
     TheaterSeatsRepository theaterSeatsRepository;
@@ -24,15 +27,25 @@ public class TheaterServiceImpl implements TheaterService {
     TheaterRepository theaterRepository;
 
     @Override
-    public void addTheater(TheaterEntryDto theaterEntryDto) {
+    public TheaterResponseDto addTheater(TheaterEntryDto theaterEntryDto) {
         TheaterEntity theaterEntity = TheaterConverter.dtoToEntity(theaterEntryDto);
 
         List<TheaterSeatsEntity> seats = createTheaterSeats();
+
+        theaterEntity.setSeats(seats);
+        theaterEntity.setShows(null);
+
         for(TheaterSeatsEntity theaterSeat : seats){
             theaterSeat.setTheater(theaterEntity);
         }
 
-        theaterRepository.save(theaterEntity);
+        theaterEntity.setType(TheaterType.SINGLE);
+
+        log.info("the theater entity is "+theaterEntity);
+
+        theaterEntity = theaterRepository.save(theaterEntity);
+
+        return TheaterConverter.entityToDto(theaterEntity);
     }
 
     private List<TheaterSeatsEntity> createTheaterSeats() {
@@ -60,10 +73,6 @@ public class TheaterServiceImpl implements TheaterService {
     @Override
     public TheaterResponseDto getTheater(int id) {
         TheaterEntity theater = theaterRepository.findById(id).get();
-        return TheaterResponseDto.builder()
-                .name(theater.getName())
-                .city(theater.getCity())
-                .address(theater.getAddress())
-                .build();
+        return TheaterConverter.entityToDto(theater);
     }
 }

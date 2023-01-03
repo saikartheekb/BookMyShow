@@ -1,21 +1,23 @@
 package com.capstoneproject.BookMyShow.Dto.ResponseDto;
 
-import com.capstoneproject.BookMyShow.Enums.TheaterType;
 import com.sun.istack.NotNull;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TheaterResponseDto {
+public class MovieResponseDto {
 
     @NotNull
     int id;
     String name;
-    String city;
-    String address;
-    TheaterType type;
+    LocalDate releaseDate;
 
+    //Optional
+    List<ShowResponseDto> showDtoList;
 }

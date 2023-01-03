@@ -1,4 +1,4 @@
-package com.capstoneproject.BookMyShow.Exception;
+package com.capstoneproject.BookMyShow.Model.Exception;
 
 public class DuplicateEntityException extends RuntimeException{
 

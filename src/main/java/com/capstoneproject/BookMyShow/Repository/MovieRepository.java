@@ -4,5 +4,6 @@ import com.capstoneproject.BookMyShow.Model.MovieEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MovieRepository extends JpaRepository<MovieEntity, Integer> {
-    boolean findByName(String name);
+
+    boolean existsByName(String name);
 }
